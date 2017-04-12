@@ -26,25 +26,25 @@ class AnalyzerDictionary {
         console.log("translateAndExecuteCommands(): " + commands.length);
 
         for (var i = 0; i < commands.length; i++) {
-            var callingClass = commands[i].class;
-            var funcName = commands[i].funcName;
+            var className = commands[i].className;
+            var functionName = commands[i].functionName;
             var params = commands[i].params;
 
-            console.log("command #" + i + ": class: " + callingClass);
+            console.log("command #" + i + ": class: " + className);
 
-            switch (callingClass) {
+            switch (className) {
                 case "AdjustAnalyzer":
-                    Dictionary_AdjustAnalyzer.receiveCommand(funcName, params);
+                    Dictionary_AdjustAnalyzer.receiveCommand(functionName, params);
                     break;
                     //case "AdjustFactory":
-                    //Dictionary_AdjustFactory.receiveCommand(funcName, params);
+                    //Dictionary_AdjustFactory.receiveCommand(functionName, params);
                     //break;
                 case "Adjust":
-                    Dictionary_Adjust.receiveCommand(funcName, params);
+                    Dictionary_Adjust.receiveCommand(functionName, params);
                     break;
                 case "System":
                     console.log("Dictionary_system: receivecommand: >>>>>>");
-                    switch (funcName) {
+                    switch (functionName) {
                         case "sleep":
                             console.log("sleeping...")
                             var mills = parseInt(AnalyzerDictionary.getParam(params, "mills"));
@@ -54,7 +54,7 @@ class AnalyzerDictionary {
                     }
                     break;
                 case "Foo":
-                    Dictionary_Foo.receiveCommand(funcName, params);
+                    Dictionary_Foo.receiveCommand(functionName, params);
                     break;
             }
         }
@@ -62,9 +62,9 @@ class AnalyzerDictionary {
 }
 
 class Dictionary_Foo {
-    static receiveCommand(funcName, params) {
+    static receiveCommand(functionName, params) {
         console.log("Dictionary_foo: receivecommand: >>>>>>");
-        switch (funcName) {
+        switch (functionName) {
             case "fooTest":
                 console.log("Footest is running successfully");
                 break;
@@ -77,9 +77,9 @@ class Dictionary_Foo {
 //return new Promise(resolve => setTimeout(resolve, ms));
 //}
 
-//static receiveCommand(funcName, params) {
+//static receiveCommand(functionName, params) {
 //console.log("Dictionary_system: receivecommand: >>>>>>");
-//switch (funcName) {
+//switch (functionName) {
 //case "sleep":
 //console.log("sleeping...")
 //var mills = parseInt(AnalyzerDictionary.getParam(params, "mills"));
@@ -93,9 +93,9 @@ class Dictionary_Foo {
 
 
 //class Dictionary_AdjustFactory {
-//static receiveCommand(funcName, params) {
+//static receiveCommand(functionName, params) {
 //console.log("Dictionary_adjustfactory: receivecommand: >>>>>>");
-//switch (funcName) {
+//switch (functionName) {
 //case "tearDown":
 //AdjustFactory.tearDown(callsite);
 //break;
@@ -104,9 +104,9 @@ class Dictionary_Foo {
 //}
 
 class Dictionary_AdjustAnalyzer {
-    static receiveCommand(funcName, params) {
+    static receiveCommand(functionName, params) {
         console.log("Dictionary_adjustAnalyzer: receivecommand: >>>>>>");
-        switch (funcName) {
+        switch (functionName) {
             case "reportState":
                 var callsite = AnalyzerDictionary.getParam(params, "callSite");
                 AdjustAnalyzer.reportState(callsite);
@@ -119,9 +119,9 @@ class Dictionary_AdjustAnalyzer {
 }
 
 class Dictionary_Adjust {
-    static receiveCommand(funcName, params) {
+    static receiveCommand(functionName, params) {
         console.log("Dictionary_adjust: receivecommand: >>>>>>");
-        switch (funcName) {
+        switch (functionName) {
             case "onCreate":
                 var appToken = AnalyzerDictionary.getParam(params, "appToken");
                 var environment = AnalyzerDictionary.getParam(params, "environment");
