@@ -17,20 +17,11 @@ var ReactNative = require('react-native');
 var {
     NativeModules
 } = ReactNative;
-var module_analyzer = NativeModules.AdjustTestLibrary;
-
-import AnalyzerDictionary from './AnalyzerDictionary';
+var module_test = NativeModules.AdjustTest;
 
 export default class exampleProject extends Component {
     componentWillMount() {
-
-        module_analyzer.initTestSession("https://192.168.8.138:8443", 
-            "rn4.11.0@android4.11.1",
-            ((jsonString) => {
-                var commands = JSON.parse(jsonString);
-
-                AnalyzerDictionary.translateAndExecuteCommands(commands);
-            }));
+        module_test.initTestSession('https://10.0.2.2:8443');
     }
 
     render() {
