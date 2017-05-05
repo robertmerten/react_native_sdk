@@ -91,5 +91,4 @@ build/
 atlassian-ide-plugin.xml
 
 # exceptions
-!*adjust-android.jar
-!android/libs/adjust*.jar
+!android/libs/
