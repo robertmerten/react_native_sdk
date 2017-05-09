@@ -81,6 +81,10 @@ Adjust.getAttribution = function(callback) {
     module_adjust.getAttribution(callback);
 };
 
+Adjust.setTestingMode = function(baseUrl) {
+    module_adjust.setTestingMode(baseUrl);
+};
+
 var AdjustEvent = function (eventToken) {
     this.eventToken = eventToken;
     this.revenue = null;

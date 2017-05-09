@@ -18,10 +18,23 @@ var {
     NativeModules
 } = ReactNative;
 var module_test = NativeModules.AdjustTest;
+import CommandExecutor from './CommandExecutor.js';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 export default class exampleProject extends Component {
     componentWillMount() {
-        module_test.initTestSession('https://10.0.2.2:8443');
+        var baseUrl = 'https://10.0.2.2:8443';
+        Adjust.setTestingMode(baseUrl);
+        module_test.initTestSession(baseUrl, 
+            function(className, methodName, jsonParams) {
+                var params = JSON.parse(jsonParams);
+
+                console.log('>> className: ' + className);
+                console.log('>> methodName: ' + methodName);
+                console.log('>> params: ' + params);
+
+                CommandExecutor.executeCommand(className, methodName, params);
+        });
     }
 
     render() {
