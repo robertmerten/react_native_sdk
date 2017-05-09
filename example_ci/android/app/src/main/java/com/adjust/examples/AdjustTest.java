@@ -34,6 +34,6 @@ public class AdjustTest extends ReactContextBaseJavaModule {
 
         TestLibrary testLibrary = new TestLibrary(baseUrl, 
                 new CommandListener(getReactApplicationContext(), callback));
-        testLibrary.initTestSession("rn4.10.0@android4.11.1");
+        testLibrary.initTestSession("rn4.11.1@android4.11.0");
     }
 }
