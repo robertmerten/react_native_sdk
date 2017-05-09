@@ -389,6 +389,11 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
         this.deferredDeeplinkCallback = true;
     }
 
+    @ReactMethod
+    public void setTestingMode(String baseUrl) {
+        AdjustFactory.setTestingMode(baseUrl);
+    }
+
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
         reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
