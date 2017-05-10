@@ -85,6 +85,18 @@ Adjust.setTestingMode = function(baseUrl) {
     module_adjust.setTestingMode(baseUrl);
 };
 
+Adjust.teardown = function (deleteState) {
+    module_adjust.teardown(deleteState);
+};
+
+Adjust.onResume = function () {
+    module_adjust.onResume();
+};
+
+Adjust.onPause = function () {
+    module_adjust.onPause();
+};
+
 var AdjustEvent = function (eventToken) {
     this.eventToken = eventToken;
     this.revenue = null;

@@ -394,6 +394,21 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
         AdjustFactory.setTestingMode(baseUrl);
     }
 
+    @ReactMethod
+    public void teardown(Boolean deleteState) {
+        AdjustFactory.teardown(getReactApplicationContext(), deleteState);
+    }
+
+    @ReactMethod
+    public void onResume() {
+        Adjust.onResume();
+    }
+
+    @ReactMethod
+    public void onPause() {
+        Adjust.onPause();
+    }
+
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
         reactContext
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
