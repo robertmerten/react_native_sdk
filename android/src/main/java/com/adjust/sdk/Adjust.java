@@ -401,12 +401,12 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
 
     @ReactMethod
     public void onResume() {
-        Adjust.onResume();
+        com.adjust.sdk.Adjust.onResume();
     }
 
     @ReactMethod
     public void onPause() {
-        Adjust.onPause();
+        com.adjust.sdk.Adjust.onPause();
     }
 
     private void sendEvent(ReactContext reactContext, String eventName, @Nullable WritableMap params) {
