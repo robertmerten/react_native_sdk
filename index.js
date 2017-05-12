@@ -121,6 +121,21 @@ var AdjustEvent = function (eventToken) {
     this.setTransactionId = function(transactionId) {
         this.transactionId = transactionId;
     };
+
+    this.clone = function(rhs) {
+        this.eventToken         = rhs.eventToken;
+        this.revenue            = rhs.revenue;
+        this.currency           = rhs.currency;
+        this.transactionId      = rhs.transactionId;
+
+        for (var attr in rhs.callbackParameters) {
+            if (rhs.callbackParameters.hasOwnProperty(attr)) this.callbackParameters[attr] = rhs.callbackParameters[attr];
+        }
+
+        for (var attr in rhs.partnerParameters) {
+            if (rhs.partnerParameters.hasOwnProperty(attr)) this.partnerParameters[attr] = rhs.partnerParameters[attr];
+        }
+    };
 };
 
 var AdjustConfig = function(appToken, environment) {
@@ -139,6 +154,8 @@ var AdjustConfig = function(appToken, environment) {
     this.defaultTracker = null;
     this.referrer = null;
     this.userAgent = null;
+
+    this.basePath = null;
 
     // Android only
     this.processName = null;
@@ -160,6 +177,28 @@ AdjustConfig.EventTrackingFailedSubscription      = undefined;
 AdjustConfig.SessionTrackingSucceededSubscription = undefined;
 AdjustConfig.SessionTrackingFailedSubscription    = undefined;
 AdjustConfig.DeferredDeeplinkSubscription         = undefined;
+
+AdjustConfig.prototype.clone = function(rhs) {
+    this.appToken              = rhs.appToken;
+    this.environment           = rhs.environment;
+
+    this.sdkPrefix             = rhs.sdkPrefix;
+    this.logLevel              = rhs.logLevel;
+
+    this.eventBufferingEnabled = rhs.eventBufferingEnabled;
+    this.shouldLaunchDeeplink  = rhs.shouldLaunchDeeplink;
+    this.sendInBackground      = rhs.sendInBackground;
+
+    this.delayStart            = rhs.delayStart;
+
+    this.defaultTracker        = rhs.defaultTracker;
+    this.referrer              = rhs.referrer;
+    this.userAgent             = rhs.userAgent;
+
+    this.basePath              = rhs.basePath;
+
+    this.processName           = rhs.processName;
+}
 
 AdjustConfig.prototype.setEventBufferingEnabled = function(isEnabled) {
     this.eventBufferingEnabled = isEnabled;
