@@ -197,6 +197,10 @@ AdjustConfig.prototype.setShouldLaunchDeeplink = function(shouldLaunchDeeplink) 
     this.shouldLaunchDeeplink = shouldLaunchDeeplink;
 };
 
+AdjustConfig.prototype.setBasePath = function(basePath) {
+    this.basePath = basePath;
+};
+
 AdjustConfig.prototype.setAttributionCallbackListener = function(attributionCallbackListener) {
     if (null == AdjustConfig.AttributionSubscription) {
         module_adjust.setAttributionCallbackListener();

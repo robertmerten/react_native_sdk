@@ -108,6 +108,7 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
         boolean shouldLaunchDeeplink  = false;
         double delayStart             = 0.0;
         boolean isLogLevelSuppress    = false;
+        String basePath               = null;
 
         // Check for isLogLevelSuppress.
         if (!mapConfig.isNull("logLevel")) {
@@ -197,6 +198,12 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
         if (!mapConfig.isNull("delayStart")) {
             delayStart = mapConfig.getDouble("delayStart");
             adjustConfig.setDelayStart(delayStart);
+        }
+
+        // Launching deferred deep link
+        if (!mapConfig.isNull("basePath")) {
+            basePath = mapConfig.getString("basePath");
+            adjustConfig.setBasePath(basePath);
         }
 
         // Attribution callback
