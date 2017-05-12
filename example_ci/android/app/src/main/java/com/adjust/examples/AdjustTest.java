@@ -14,8 +14,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import static com.adjust.examples.CommandListener.debug;
-
 public class AdjustTest extends ReactContextBaseJavaModule {
     private static final String TAG = "AdjustTest";
 
@@ -29,11 +27,11 @@ public class AdjustTest extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void initTestSession(String baseUrl, final Callback callback) {
+    public void initTestSession(String baseUrl) {
         Log.d(TAG, "initTestSession() with baseUrl[" + baseUrl + "]");
 
         TestLibrary testLibrary = new TestLibrary(baseUrl, 
-                new CommandListener(getReactApplicationContext(), callback));
+                new CommandListener(getReactApplicationContext()));
         testLibrary.initTestSession("rn4.11.1@android4.11.0");
     }
 }
