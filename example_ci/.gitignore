@@ -91,3 +91,4 @@ atlassian-ide-plugin.xml
 
 # exceptions
 !android/libs/
+!android/app/libs/
