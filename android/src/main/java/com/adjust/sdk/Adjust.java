@@ -200,7 +200,7 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
             adjustConfig.setDelayStart(delayStart);
         }
 
-        // Launching deferred deep link
+        // Base Path
         if (!mapConfig.isNull("basePath")) {
             basePath = mapConfig.getString("basePath");
             adjustConfig.setBasePath(basePath);
