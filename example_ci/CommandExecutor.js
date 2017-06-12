@@ -49,6 +49,7 @@ class AdjustCommandExecutor {
             case "setPushToken"                   : this.setPushToken(params); break;
             case "teardown"                       : this.teardown(params); break;
             case "openDeeplink"                   : this.openDeeplink(params); break;
+            case "sendReferrer"                   : this.sendReferrer(params); break;
             case "testBegin"                      : this.testBegin(params); break;
             case "testEnd"                        : this.testEnd(params); break;
         }
@@ -258,18 +259,20 @@ class AdjustCommandExecutor {
     }
 
     addSessionCallbackParameter(params) {
-        for (var param in this.getValueFromKey(params, "KeyValue")) {
-            var key = param[0];
-            var value = param[1];
+        var list = this.getValueFromKey(params, "KeyValue");
+        for (var i = 0; i < list.length; i = i+2) {
+            var key = param[i];
+            var value = param[i+1];
             console.log(`[*RN*] addSessionCallbackParameter: key ${key} value ${value}`);
             Adjust.addSessionCallbackParameter(key, value);
         }
     }
 
     addSessionPartnerParameter(params) {
-        for (var param in this.getValueFromKey(params, "KeyValue")) {
-            var key = param[0];
-            var value = param[1];
+        var list = this.getValueFromKey(params, "KeyValue");
+        for (var i = 0; i < list.length; i = i+2) {
+            var key = param[i];
+            var value = param[i+1];
             console.log(`[*RN*] addSessionPartnerParameter: key ${key} value ${value}`);
             Adjust.addSessionPartnerParameter(key, value);
         }
@@ -303,6 +306,12 @@ class AdjustCommandExecutor {
         console.log("[*RN*] openDeeplink");
         var deeplink = this.getFirstParameterValue(params, "deeplink");
         Adjust.appWillOpenUrl(deeplink);
+    }
+
+    sendReferrer(params) {
+        console.log("[*RN*] sendReferrer");
+        var referrer = this.getFirstParameterValue(params, 'referrer');
+        Adjust.setReferrer(referrer);
     }
 
     testBegin(params) {
