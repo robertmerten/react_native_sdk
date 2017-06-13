@@ -17,6 +17,8 @@ import javax.net.ssl.X509TrustManager;
 public class AdjustTest extends ReactContextBaseJavaModule {
     private static final String TAG = "AdjustTest";
 
+    private TestLibrary testLibrary;
+
     public AdjustTest(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -30,8 +32,21 @@ public class AdjustTest extends ReactContextBaseJavaModule {
     public void initTestSession(String baseUrl) {
         Log.d(TAG, "initTestSession() with baseUrl[" + baseUrl + "]");
 
-        TestLibrary testLibrary = new TestLibrary(baseUrl, 
-                new CommandListener(getReactApplicationContext()));
-        testLibrary.initTestSession("rn4.11.1@android4.11.0");
+        testLibrary = new TestLibrary(baseUrl, new CommandListener(getReactApplicationContext()));
+        testLibrary.initTestSession("react_native4.11.3@android4.11.4");
+    }
+
+    @ReactMethod
+    public void addInfoToSend(String key, String value) {
+        if (null != testLibrary) {
+            testLibrary.addInfoToSend(key, value);
+        }
+    }
+
+    @ReactMethod
+    public void sendInfoToServer() {
+        if (null != testLibrary) {
+            testLibrary.sendInfoToServer();
+        }
     }
 }

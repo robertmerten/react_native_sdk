@@ -4,6 +4,7 @@ var {
     NativeModules
 } = ReactNative;
 import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
+var AdjustTest = NativeModules.AdjustTest;
 
 class CommandExecutor {
     constructor() {
@@ -138,6 +139,69 @@ class AdjustCommandExecutor {
         if ('userAgent' in params) {
             var userAgent = this.getFirstParameterValue(params, 'userAgent');
             adjustConfig.setUserAgent(userAgent);
+        }
+
+        if ('attributionCallbackSendAll' in params) {
+            adjustConfig.setAttributionCallbackListener(function(attribution) {
+                AdjustTest.addInfoToSend("trackerToken", attribution.trackerToken);
+                AdjustTest.addInfoToSend("trackerName", attribution.trackerName);
+                AdjustTest.addInfoToSend("network", attribution.network);
+                AdjustTest.addInfoToSend("campaign", attribution.campaign);
+                AdjustTest.addInfoToSend("adgroup", attribution.adgroup);
+                AdjustTest.addInfoToSend("creative", attribution.creative);
+                AdjustTest.addInfoToSend("clickLabel", attribution.clickLabel);
+                AdjustTest.addInfoToSend("adid", attribution.adid);
+
+                AdjustTest.sendInfoToServer();
+            });
+        }
+
+        if ('sessionCallbackSendSuccess' in params) {
+            adjustConfig.setSessionTrackingSucceededCallbackListener(function(sessionSuccess) {
+                AdjustTest.addInfoToSend("message", sessionSuccess.message);
+                AdjustTest.addInfoToSend("timestamp", sessionSuccess.timestamp);
+                AdjustTest.addInfoToSend("adid", sessionSuccess.adid);
+                AdjustTest.addInfoToSend("jsonResponse", sessionSuccess.jsonResponse);
+
+                AdjustTest.sendInfoToServer();
+            });
+        }
+
+        if ('sessionCallbackSendFailure' in params) {
+            adjustConfig.setSessionTrackingFailedCallbackListener(function(sessionFailed) {
+                AdjustTest.addInfoToSend("message", sessionFailed.message);
+                AdjustTest.addInfoToSend("timestamp", sessionFailed.timestamp);
+                AdjustTest.addInfoToSend("adid", sessionFailed.adid);
+                AdjustTest.addInfoToSend("willRetry", sessionFailed.willRetry);
+                AdjustTest.addInfoToSend("jsonResponse", sessionFailed.jsonResponse);
+
+                AdjustTest.sendInfoToServer();
+            });
+        }
+
+        if ('eventCallbackSendSuccess' in params) {
+            adjustConfig.setEventTrackingSucceededCallbackListener(function(eventSuccess) {
+                AdjustTest.addInfoToSend("message", eventSuccess.message);
+                AdjustTest.addInfoToSend("timestamp", eventSuccess.timestamp);
+                AdjustTest.addInfoToSend("adid", eventSuccess.adid);
+                AdjustTest.addInfoToSend("eventToken", eventSuccess.eventToken);
+                AdjustTest.addInfoToSend("jsonResponse", eventSuccess.jsonResponse);
+
+                AdjustTest.sendInfoToServer();
+            });
+        }
+
+        if ('eventCallbackSendFailure' in params) {
+            adjustConfig.setEventTrackingFailedCallbackListener(function(eventFailed) {
+                AdjustTest.addInfoToSend("message", eventFailed.message);
+                AdjustTest.addInfoToSend("timestamp", eventFailed.timestamp);
+                AdjustTest.addInfoToSend("adid", eventFailed.adid);
+                AdjustTest.addInfoToSend("eventToken", eventFailed.eventToken);
+                AdjustTest.addInfoToSend("willRetry", eventFailed.willRetry);
+                AdjustTest.addInfoToSend("jsonResponse", eventFailed.jsonResponse);
+
+                AdjustTest.sendInfoToServer();
+            });
         }
 
         //resave the modified adjustConfig
