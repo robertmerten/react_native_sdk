@@ -325,8 +325,8 @@ class AdjustCommandExecutor {
     addSessionCallbackParameter(params) {
         var list = this.getValueFromKey(params, "KeyValue");
         for (var i = 0; i < list.length; i = i+2) {
-            var key = param[i];
-            var value = param[i+1];
+            var key = list[i];
+            var value = list[i+1];
             console.log(`[*RN*] addSessionCallbackParameter: key ${key} value ${value}`);
             Adjust.addSessionCallbackParameter(key, value);
         }
@@ -335,16 +335,16 @@ class AdjustCommandExecutor {
     addSessionPartnerParameter(params) {
         var list = this.getValueFromKey(params, "KeyValue");
         for (var i = 0; i < list.length; i = i+2) {
-            var key = param[i];
-            var value = param[i+1];
+            var key = list[i];
+            var value = list[i+1];
             console.log(`[*RN*] addSessionPartnerParameter: key ${key} value ${value}`);
             Adjust.addSessionPartnerParameter(key, value);
         }
     }
 
     removeSessionCallbackParameter(params) {
-        if ('Key' in params) {
-            var list = this.getValueFromKey(params, 'Key');
+        if ('key' in params) {
+            var list = this.getValueFromKey(params, 'key');
             for (var i = 0; i < list.length; i++) {
                 Adjust.removeSessionCallbackParameter(list[i]);
             }
@@ -352,8 +352,8 @@ class AdjustCommandExecutor {
     }
 
     removeSessionPartnerParameter(params) {
-        if ('Key' in params) {
-            var list = this.getValueFromKey(params, 'Key');
+        if ('key' in params) {
+            var list = this.getValueFromKey(params, 'key');
             for (var i = 0; i < list.length; i++) {
                 Adjust.removeSessionPartnerParameter(list[i]);
             }
