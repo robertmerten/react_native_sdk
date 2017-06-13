@@ -279,8 +279,6 @@ class AdjustCommandExecutor {
 
         //resave the modified adjustEvent
         this.savedInstances[eventName] = adjustEvent;
-
-        Adjust.trackEvent(adjustEvent);
     }
 
     trackEvent(params) {
@@ -292,6 +290,7 @@ class AdjustCommandExecutor {
             eventName = this.DefaultEventName;
         }
         var adjustEvent = this.savedInstances[eventName];
+
         Adjust.trackEvent(adjustEvent);
     }
 
