@@ -1,10 +1,10 @@
 'use strict';
-var ReactNative = require('react-native');
-var {
+let ReactNative = require('react-native');
+let {
     NativeModules
 } = ReactNative;
 import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
-var AdjustTest = NativeModules.AdjustTest;
+let AdjustTest = NativeModules.AdjustTest;
 
 class CommandExecutor {
     constructor() {
@@ -22,10 +22,9 @@ class CommandExecutor {
 
 class AdjustCommandExecutor {
     constructor() {
-        this.savedInstances = {};
-        this.DefaultConfigName = "defaultConfig";
-        this.DefaultEventName = "defaultEvent";
         this.basePath = null;
+        this.DefaultEventName = "defaultEvent";
+        this.DefaultConfigName = "defaultConfig";
     }
 
     executeCommand(methodName, params) {
@@ -64,35 +63,21 @@ class AdjustCommandExecutor {
 
     teardown(params) {
         if ('deleteState' in params) {
-            var deleteState = (this.getFirstParameterValue(params, 'deleteState') == 'true');
+            let deleteState = (this.getFirstParameterValue(params, 'deleteState') == 'true');
             Adjust.teardown(deleteState);
         }
     }
 
     config(params) {
-        var configName = "";
-        if ('configName' in params) {
-            configName = this.getFirstParameterValue(params, 'configName');
-        } else {
-            configName = this.DefaultConfigName;
-        }
+        let environment = this.getFirstParameterValue(params, 'environment');
+        let appToken = this.getFirstParameterValue(params, 'appToken');
 
-        var adjustConfig;
-        if (configName in this.savedInstances) {
-            var frozenAdjustConfig = this.savedInstances[configName];
-            adjustConfig = new AdjustConfig(null, null);
-            adjustConfig.clone(frozenAdjustConfig);
-        } else {
-            var environment = this.getFirstParameterValue(params, 'environment');
-            var appToken = this.getFirstParameterValue(params, 'appToken');
-
-            adjustConfig = new AdjustConfig(appToken, environment);
-            this.savedInstances[configName] = adjustConfig;
-        }
+        let adjustConfig = new AdjustConfig(appToken, environment);
 
         if ('logLevel' in params) {
-            var logLevelS = this.getFirstParameterValue(params, 'logLevel');
-            var logLevel = null;
+            let logLevelS = this.getFirstParameterValue(params, 'logLevel');
+            let logLevel = null;
+
             switch (logLevelS) {
                 case "verbose": logLevel = AdjustConfig.LogLevelVerbose;
                     break;
@@ -114,35 +99,37 @@ class AdjustCommandExecutor {
         }
 
         if ('defaultTracker' in params) {
-            var defaultTracker = this.getFirstParameterValue(params, 'defaultTracker');
+            let defaultTracker = this.getFirstParameterValue(params, 'defaultTracker');
             adjustConfig.setDefaultTracker(defaultTracker);
         }
 
         if ('delayStart' in params) {
-            var delayStartS = this.getFirstParameterValue(params, 'delayStart');
-            var delayStart = parseFloat(delayStartS);
+            let delayStartS = this.getFirstParameterValue(params, 'delayStart');
+            let delayStart = parseFloat(delayStartS);
             adjustConfig.setDelayStart(delayStart);
         }
 
         if ('eventBufferingEnabled' in params) {
-            var eventBufferingEnabledS = this.getFirstParameterValue(params, 'eventBufferingEnabled');
-            var eventBufferingEnabled = (eventBufferingEnabledS == 'true');
+            let eventBufferingEnabledS = this.getFirstParameterValue(params, 'eventBufferingEnabled');
+            let eventBufferingEnabled = (eventBufferingEnabledS == 'true');
             adjustConfig.setEventBufferingEnabled(eventBufferingEnabled);
         }
 
         if ('sendInBackground' in params) {
-            var sendInBackgroundS = this.getFirstParameterValue(params, 'sendInBackground');
-            var sendInBackground = (sendInBackgroundS == 'true');
+            let sendInBackgroundS = this.getFirstParameterValue(params, 'sendInBackground');
+            let sendInBackground = (sendInBackgroundS == 'true');
             adjustConfig.setSendInBackground(sendInBackground);
         }
 
         if ('userAgent' in params) {
-            var userAgent = this.getFirstParameterValue(params, 'userAgent');
+            let userAgent = this.getFirstParameterValue(params, 'userAgent');
             adjustConfig.setUserAgent(userAgent);
         }
 
         if ('attributionCallbackSendAll' in params) {
+            console.log('\n\n\n\n\nSetting attribution callback!\n\n\n\n\n');
             adjustConfig.setAttributionCallbackListener(function(attribution) {
+                console.log('\n\n\n\n\nTriggering attribution callback!\n\n\n\n\n');
                 AdjustTest.addInfoToSend("trackerToken", attribution.trackerToken);
                 AdjustTest.addInfoToSend("trackerName", attribution.trackerName);
                 AdjustTest.addInfoToSend("network", attribution.network);
@@ -204,98 +191,65 @@ class AdjustCommandExecutor {
             });
         }
 
-        //resave the modified adjustConfig
-        this.savedInstances[configName] = adjustConfig;
+        return adjustConfig;
     }
 
     start(params) {
-        this.config(params);
-        var configName = null;
-        if ('configName' in params) {
-            configName = this.getFirstParameterValue(params, 'configName');
-        } else {
-            configName = this.DefaultConfigName;
-        }
-
-        var frozenAdjustConfig = this.savedInstances[configName];
-        var adjustConfig = new AdjustConfig(null, null);
-        adjustConfig.clone(frozenAdjustConfig);
+        let adjustConfig = this.config(params);
 
         adjustConfig.setBasePath(this.basePath);
 
-        //resave the modified adjustConfig
-        this.savedInstances[configName] = adjustConfig;
         Adjust.create(adjustConfig);
     }
 
     event(params) {
-        var eventName = null;
-        if ('eventName' in params) {
-            eventName = this.getFirstParameterValue(params, 'eventName');
-        } else {
-            eventName = this.DefaultEventName;
-        }
-
-        var adjustEvent;
-        if (eventName in this.savedInstances) {
-            var frozenAdjustEvent = this.savedInstances[eventName];
-            adjustEvent = new AdjustEvent(null);
-            adjustEvent.clone(frozenAdjustEvent);
-        } else {
-            var eventToken = this.getFirstParameterValue(params, 'eventToken');
-            adjustEvent = new AdjustEvent(eventToken);
-            this.savedInstances[eventName] = adjustEvent;
-        } 
+        let eventToken = this.getFirstParameterValue(params, 'eventToken');
+        let adjustEvent = new AdjustEvent(eventToken);
 
         if ('revenue' in params) {
-            var revenueParams = this.getValueFromKey(params, 'revenue');
-            var currency = revenueParams[0];
-            var revenue = parseFloat(revenueParams[1]);
+            let revenueParams = this.getValueFromKey(params, 'revenue');
+            let currency = revenueParams[0];
+            let revenue = parseFloat(revenueParams[1]);
+
             adjustEvent.setRevenue(revenue, currency);
         }
 
         if ('callbackParams' in params) {
-            var callbackParams = this.getValueFromKey(params, "callbackParams");
-            for (var i = 0; i < callbackParams.length; i = i + 2) {
-                var key = callbackParams[i];
-                var value = callbackParams[i + 1];
+            let callbackParams = this.getValueFromKey(params, "callbackParams");
+            for (let i = 0; i < callbackParams.length; i = i + 2) {
+                let key = callbackParams[i];
+                let value = callbackParams[i + 1];
+
                 adjustEvent.addCallbackParameter(key, value);
             }
         }
 
         if ('partnerParams' in params) {
-            var partnerParams = this.getValueFromKey(params, "partnerParams");
-            for (var i = 0; i < partnerParams.length; i = i + 2) {
-                var key = partnerParams[i];
-                var value = partnerParams[i + 1];
+            let partnerParams = this.getValueFromKey(params, "partnerParams");
+            
+            for (let i = 0; i < partnerParams.length; i = i + 2) {
+                let key = partnerParams[i];
+                let value = partnerParams[i + 1];
+
                 adjustEvent.addPartnerParameter(key, value);
             }
         }
         
         if ('orderId' in params) {
-            var orderId = getFirstParameterValue(params, 'orderId');
+            let orderId = this.getFirstParameterValue(params, 'orderId');
             adjustEvent.setTransactionId(orderId);
         }
 
-        //resave the modified adjustEvent
-        this.savedInstances[eventName] = adjustEvent;
+        return adjustEvent;
     }
 
     trackEvent(params) {
-        this.event(params);
-        var eventName = null;
-        if ('eventName' in params) {
-            eventName = this.getFirstParameterValue(params, 'eventName');
-        } else {
-            eventName = this.DefaultEventName;
-        }
-        var adjustEvent = this.savedInstances[eventName];
-
+        let adjustEvent = this.event(params);
         Adjust.trackEvent(adjustEvent);
     }
 
     setReferrer(params) {
-        var referrer = this.getFirstParameterValue(params, 'referrer');
+        let referrer = this.getFirstParameterValue(params, 'referrer');
         Adjust.setReferrer(referrer);
     }
 
@@ -308,12 +262,12 @@ class AdjustCommandExecutor {
     }
 
     setEnabled(params) {
-        var enabled = this.getFirstParameterValue(params, "enabled") == 'true';
+        let enabled = this.getFirstParameterValue(params, "enabled") == 'true';
         Adjust.setEnabled(enabled);
     }
 
     setOfflineMode(params) {
-        var enabled = this.getFirstParameterValue(params, "enabled") == 'true';
+        let enabled = this.getFirstParameterValue(params, "enabled") == 'true';
         Adjust.setOfflineMode(enabled);
     }
 
@@ -322,29 +276,36 @@ class AdjustCommandExecutor {
     }
 
     addSessionCallbackParameter(params) {
-        var list = this.getValueFromKey(params, "KeyValue");
-        for (var i = 0; i < list.length; i = i+2) {
-            var key = list[i];
-            var value = list[i+1];
+        let list = this.getValueFromKey(params, "KeyValue");
+
+        for (let i = 0; i < list.length; i = i+2) {
+            let key = list[i];
+            let value = list[i+1];
+
             console.log(`[*RN*] addSessionCallbackParameter: key ${key} value ${value}`);
+
             Adjust.addSessionCallbackParameter(key, value);
         }
     }
 
     addSessionPartnerParameter(params) {
-        var list = this.getValueFromKey(params, "KeyValue");
-        for (var i = 0; i < list.length; i = i+2) {
-            var key = list[i];
-            var value = list[i+1];
+        let list = this.getValueFromKey(params, "KeyValue");
+
+        for (let i = 0; i < list.length; i = i+2) {
+            let key = list[i];
+            let value = list[i+1];
+
             console.log(`[*RN*] addSessionPartnerParameter: key ${key} value ${value}`);
+
             Adjust.addSessionPartnerParameter(key, value);
         }
     }
 
     removeSessionCallbackParameter(params) {
         if ('key' in params) {
-            var list = this.getValueFromKey(params, 'key');
-            for (var i = 0; i < list.length; i++) {
+            let list = this.getValueFromKey(params, 'key');
+
+            for (let i = 0; i < list.length; i++) {
                 Adjust.removeSessionCallbackParameter(list[i]);
             }
         }
@@ -352,8 +313,9 @@ class AdjustCommandExecutor {
 
     removeSessionPartnerParameter(params) {
         if ('key' in params) {
-            var list = this.getValueFromKey(params, 'key');
-            for (var i = 0; i < list.length; i++) {
+            let list = this.getValueFromKey(params, 'key');
+
+            for (let i = 0; i < list.length; i++) {
                 Adjust.removeSessionPartnerParameter(list[i]);
             }
         }
@@ -368,24 +330,27 @@ class AdjustCommandExecutor {
     }
 
     setPushToken(params) {
-        var token = this.getFirstParameterValue(params, 'pushToken');
+        let token = this.getFirstParameterValue(params, 'pushToken');
         Adjust.setPushToken(token);
     }
 
     openDeeplink(params) {
         console.log("[*RN*] openDeeplink");
-        var deeplink = this.getFirstParameterValue(params, "deeplink");
+
+        let deeplink = this.getFirstParameterValue(params, "deeplink");
         Adjust.appWillOpenUrl(deeplink);
     }
 
     sendReferrer(params) {
         console.log("[*RN*] sendReferrer");
-        var referrer = this.getFirstParameterValue(params, 'referrer');
+
+        let referrer = this.getFirstParameterValue(params, 'referrer');
         Adjust.setReferrer(referrer);
     }
 
     testBegin(params) {
         console.log("[*RN*] testBegin");
+
         if ('basePath' in params) {
             this.basePath = this.getFirstParameterValue(params, "basePath");
         }
@@ -395,11 +360,11 @@ class AdjustCommandExecutor {
         Adjust.setTimerStart(-1);
         Adjust.setSessionInterval(-1);
         Adjust.setSubsessionInterval(-1);
-        for (var member in this.savedInstances) delete this.savedInstances[member];
     }
 
     testEnd(params) {
         console.log("[*RN*] testEnd");
+
         Adjust.teardown(true);
     }
 
@@ -413,8 +378,9 @@ class AdjustCommandExecutor {
 
     getFirstParameterValue(params, key) {
         if (key in params) {
-            var param = params[key];
-            if(param != null || param.length >= 1) {
+            let param = params[key];
+
+            if (param != null || param.length >= 1) {
                 return param[0];
             }
         }
