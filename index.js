@@ -86,6 +86,36 @@ Adjust.setTestingMode = function(baseUrl) {
 };
 
 Adjust.teardown = function (deleteState) {
+    if (undefined != AdjustConfig.AttributionSubscription) {
+        AdjustConfig.AttributionSubscription.remove();
+        AdjustConfig.AttributionSubscription = undefined;
+    }
+
+    if (undefined != AdjustConfig.EventTrackingSucceededSubscription) {
+        AdjustConfig.EventTrackingSucceededSubscription.remove();
+        AdjustConfig.EventTrackingSucceededSubscription = undefined;
+    }
+
+    if (undefined != AdjustConfig.EventTrackingFailedSubscription) {
+        AdjustConfig.EventTrackingFailedSubscription.remove();
+        AdjustConfig.EventTrackingFailedSubscription = undefined;   
+    }
+
+    if (undefined != AdjustConfig.SessionTrackingSucceededSubscription) {
+        AdjustConfig.SessionTrackingSucceededSubscription.remove();
+        AdjustConfig.SessionTrackingSucceededSubscription = undefined;   
+    }
+
+    if (undefined != AdjustConfig.SessionTrackingFailedSubscription) {
+        AdjustConfig.SessionTrackingFailedSubscription.remove();
+        AdjustConfig.SessionTrackingFailedSubscription = undefined;   
+    }
+
+    if (undefined != AdjustConfig.DeferredDeeplinkSubscription) {
+        AdjustConfig.DeferredDeeplinkSubscription.remove();
+        AdjustConfig.DeferredDeeplinkSubscription = undefined;   
+    }
+
     module_adjust.teardown(deleteState);
 };
 
@@ -95,10 +125,6 @@ Adjust.onResume = function () {
 
 Adjust.onPause = function () {
     module_adjust.onPause();
-};
-
-Adjust.teardown = function (deleteState) {
-    module_adjust.teardown(deleteState);
 };
 
 Adjust.setTimerInterval = function (timerInterval) {
@@ -191,12 +217,22 @@ AdjustConfig.LogLevelWarn                         = "WARN";
 AdjustConfig.LogLevelError                        = "ERROR";
 AdjustConfig.LogLevelAssert                       = "ASSERT";
 AdjustConfig.LogLevelSuppress                     = "SUPPRESS";
+<<<<<<< HEAD
 AdjustConfig.AttributionSubscription              = undefined;
 AdjustConfig.EventTrackingSucceededSubscription   = undefined;
 AdjustConfig.EventTrackingFailedSubscription      = undefined;
 AdjustConfig.SessionTrackingSucceededSubscription = undefined;
 AdjustConfig.SessionTrackingFailedSubscription    = undefined;
 AdjustConfig.DeferredDeeplinkSubscription         = undefined;
+=======
+
+AdjustConfig.AttributionSubscription              = undefined;
+AdjustConfig.EventTrackingSucceededSubscription   = undefined;
+AdjustConfig.EventTrackingFailedSubscription      = undefined;
+AdjustConfig.SessionTrackingSucceededSubscription = undefined;
+AdjustConfig.SessionTrackingFailedSubscription    = undefined;
+AdjustConfig.DeferredDeeplinkSubscription         = undefined;
+>>>>>>> Properly tearing down things by removing all existing listeners
 
 AdjustConfig.prototype.clone = function(rhs) {
     this.appToken              = rhs.appToken;
