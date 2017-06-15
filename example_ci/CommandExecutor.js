@@ -59,6 +59,22 @@ class AdjustCommandExecutor {
         if ('basePath' in params) {
             this.basePath = this.getFirstParameterValue(params, 'basePath');
         }
+
+        if ('timerInterval' in params) {
+            Adjust.setTimerInterval(parseFloat(this.getFirstParameterValue(params, 'timerInterval')));
+        }
+
+        if ('timerStart' in params) {
+            Adjust.setTimerStart(parseFloat(this.getFirstParameterValue(params, 'timerStart')));
+        }
+
+        if ('sessionInterval' in params) {
+            Adjust.setSessionInterval(parseFloat(this.getFirstParameterValue(params, 'sessionInterval')));
+        }
+
+        if ('subsessionInterval' in params) {
+            Adjust.setSubsessionInterval(parseFloat(this.getFirstParameterValue(params, 'subsessionInterval')));
+        }
     }
 
     teardown(params) {
@@ -126,10 +142,13 @@ class AdjustCommandExecutor {
             adjustConfig.setUserAgent(userAgent);
         }
 
+        if ('sdkPrefix' in params) {
+            let sdkPrefix = this.getFirstParameterValue(params, 'sdkPrefix');
+            adjustConfig.setSdkPrefix(sdkPrefix);
+        }
+
         if ('attributionCallbackSendAll' in params) {
-            console.log('\n\n\n\n\nSetting attribution callback!\n\n\n\n\n');
             adjustConfig.setAttributionCallbackListener(function(attribution) {
-                console.log('\n\n\n\n\nTriggering attribution callback!\n\n\n\n\n');
                 AdjustTest.addInfoToSend("trackerToken", attribution.trackerToken);
                 AdjustTest.addInfoToSend("trackerName", attribution.trackerName);
                 AdjustTest.addInfoToSend("network", attribution.network);
