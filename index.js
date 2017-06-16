@@ -119,6 +119,10 @@ Adjust.teardown = function (deleteState) {
     module_adjust.teardown(deleteState);
 };
 
+Adjust.setReferrer = function(referrer) {
+    module_adjust.setReferrer(referrer);
+}
+
 Adjust.onResume = function () {
     module_adjust.onResume();
 };
