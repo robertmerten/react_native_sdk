@@ -238,28 +238,6 @@ AdjustConfig.SessionTrackingFailedSubscription    = undefined;
 AdjustConfig.DeferredDeeplinkSubscription         = undefined;
 >>>>>>> Properly tearing down things by removing all existing listeners
 
-AdjustConfig.prototype.clone = function(rhs) {
-    this.appToken              = rhs.appToken;
-    this.environment           = rhs.environment;
-
-    this.sdkPrefix             = rhs.sdkPrefix;
-    this.logLevel              = rhs.logLevel;
-
-    this.eventBufferingEnabled = rhs.eventBufferingEnabled;
-    this.shouldLaunchDeeplink  = rhs.shouldLaunchDeeplink;
-    this.sendInBackground      = rhs.sendInBackground;
-
-    this.delayStart            = rhs.delayStart;
-
-    this.defaultTracker        = rhs.defaultTracker;
-    this.referrer              = rhs.referrer;
-    this.userAgent             = rhs.userAgent;
-
-    this.basePath              = rhs.basePath;
-
-    this.processName           = rhs.processName;
-}
-
 AdjustConfig.prototype.setEventBufferingEnabled = function(isEnabled) {
     this.eventBufferingEnabled = isEnabled;
 };
