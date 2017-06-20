@@ -23,8 +23,6 @@ class CommandExecutor {
 class AdjustCommandExecutor {
     constructor() {
         this.basePath = null;
-        this.DefaultEventName = "defaultEvent";
-        this.DefaultConfigName = "defaultConfig";
     }
 
     executeCommand(methodName, params) {
