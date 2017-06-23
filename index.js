@@ -119,10 +119,6 @@ Adjust.teardown = function (deleteState) {
     module_adjust.teardown(deleteState);
 };
 
-Adjust.setReferrer = function(referrer) {
-    module_adjust.setReferrer(referrer);
-}
-
 Adjust.onResume = function () {
     module_adjust.onResume();
 };
@@ -170,21 +166,6 @@ var AdjustEvent = function (eventToken) {
 
     this.setTransactionId = function(transactionId) {
         this.transactionId = transactionId;
-    };
-
-    this.clone = function(rhs) {
-        this.eventToken         = rhs.eventToken;
-        this.revenue            = rhs.revenue;
-        this.currency           = rhs.currency;
-        this.transactionId      = rhs.transactionId;
-
-        for (var attr in rhs.callbackParameters) {
-            if (rhs.callbackParameters.hasOwnProperty(attr)) this.callbackParameters[attr] = rhs.callbackParameters[attr];
-        }
-
-        for (var attr in rhs.partnerParameters) {
-            if (rhs.partnerParameters.hasOwnProperty(attr)) this.partnerParameters[attr] = rhs.partnerParameters[attr];
-        }
     };
 };
 

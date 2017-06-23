@@ -35,7 +35,6 @@ class AdjustCommandExecutor {
             case "resume"                         : this.resume(params); break;
             case "pause"                          : this.pause(params); break;
             case "setEnabled"                     : this.setEnabled(params); break;
-            case "setReferrer"                    : this.setReferrer(params); break;
             case "setOfflineMode"                 : this.setOfflineMode(params); break;
             case "sendFirstPackages"              : this.sendFirstPackages(params); break;
             case "addSessionCallbackParameter"    : this.addSessionCallbackParameter(params); break;
@@ -47,9 +46,9 @@ class AdjustCommandExecutor {
             case "setPushToken"                   : this.setPushToken(params); break;
             case "teardown"                       : this.teardown(params); break;
             case "openDeeplink"                   : this.openDeeplink(params); break;
-            case "sendReferrer"                   : this.sendReferrer(params); break;
             case "testBegin"                      : this.testBegin(params); break;
             case "testEnd"                        : this.testEnd(params); break;
+            case default                          : this.default(methodName); break;
         }
     }
 
@@ -138,11 +137,6 @@ class AdjustCommandExecutor {
         if ('userAgent' in params) {
             let userAgent = this.getFirstParameterValue(params, 'userAgent');
             adjustConfig.setUserAgent(userAgent);
-        }
-
-        if ('sdkPrefix' in params) {
-            let sdkPrefix = this.getFirstParameterValue(params, 'sdkPrefix');
-            adjustConfig.setSdkPrefix(sdkPrefix);
         }
 
         if ('attributionCallbackSendAll' in params) {
@@ -383,6 +377,10 @@ class AdjustCommandExecutor {
         console.log("[*RN*] testEnd");
 
         Adjust.teardown(true);
+    }
+
+    default(methodName) {
+        console.log("[*RN*] " + methodName + " not defined for Adjust instance");
     }
 
     getValueFromKey(params, key) {

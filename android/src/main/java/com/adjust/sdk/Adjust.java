@@ -200,7 +200,7 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
             adjustConfig.setDelayStart(delayStart);
         }
 
-        // Base Path
+        // TESTING ONLY: Base path
         if (!mapConfig.isNull("basePath")) {
             basePath = mapConfig.getString("basePath");
             adjustConfig.setBasePath(basePath);
@@ -283,11 +283,6 @@ public class Adjust extends ReactContextBaseJavaModule implements LifecycleEvent
     @ReactMethod
     public void isEnabled(Callback callback) {
         callback.invoke(com.adjust.sdk.Adjust.isEnabled());
-    }
-
-    @ReactMethod
-    public void setReferrer(String referrer) {
-        com.adjust.sdk.Adjust.setReferrer(referrer);
     }
 
     @ReactMethod
