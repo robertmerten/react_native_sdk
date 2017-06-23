@@ -48,7 +48,7 @@ class AdjustCommandExecutor {
             case "openDeeplink"                   : this.openDeeplink(params); break;
             case "testBegin"                      : this.testBegin(params); break;
             case "testEnd"                        : this.testEnd(params); break;
-            case default                          : this.default(methodName); break;
+            default                               : this.default(methodName); break;
         }
     }
 
