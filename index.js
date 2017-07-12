@@ -86,34 +86,34 @@ Adjust.setTestingMode = function(baseUrl) {
 };
 
 Adjust.teardown = function (deleteState) {
-    if (undefined != AdjustConfig.AttributionSubscription) {
+    if (null != AdjustConfig.AttributionSubscription) {
         AdjustConfig.AttributionSubscription.remove();
-        AdjustConfig.AttributionSubscription = undefined;
+        AdjustConfig.AttributionSubscription = null;
     }
 
-    if (undefined != AdjustConfig.EventTrackingSucceededSubscription) {
+    if (null != AdjustConfig.EventTrackingSucceededSubscription) {
         AdjustConfig.EventTrackingSucceededSubscription.remove();
-        AdjustConfig.EventTrackingSucceededSubscription = undefined;
+        AdjustConfig.EventTrackingSucceededSubscription = null;
     }
 
-    if (undefined != AdjustConfig.EventTrackingFailedSubscription) {
+    if (null != AdjustConfig.EventTrackingFailedSubscription) {
         AdjustConfig.EventTrackingFailedSubscription.remove();
-        AdjustConfig.EventTrackingFailedSubscription = undefined;   
+        AdjustConfig.EventTrackingFailedSubscription = null;   
     }
 
-    if (undefined != AdjustConfig.SessionTrackingSucceededSubscription) {
+    if (null != AdjustConfig.SessionTrackingSucceededSubscription) {
         AdjustConfig.SessionTrackingSucceededSubscription.remove();
-        AdjustConfig.SessionTrackingSucceededSubscription = undefined;   
+        AdjustConfig.SessionTrackingSucceededSubscription = null;   
     }
 
-    if (undefined != AdjustConfig.SessionTrackingFailedSubscription) {
+    if (null != AdjustConfig.SessionTrackingFailedSubscription) {
         AdjustConfig.SessionTrackingFailedSubscription.remove();
-        AdjustConfig.SessionTrackingFailedSubscription = undefined;   
+        AdjustConfig.SessionTrackingFailedSubscription = null;   
     }
 
-    if (undefined != AdjustConfig.DeferredDeeplinkSubscription) {
+    if (null != AdjustConfig.DeferredDeeplinkSubscription) {
         AdjustConfig.DeferredDeeplinkSubscription.remove();
-        AdjustConfig.DeferredDeeplinkSubscription = undefined;   
+        AdjustConfig.DeferredDeeplinkSubscription = null;   
     }
 
     module_adjust.teardown(deleteState);
@@ -202,22 +202,13 @@ AdjustConfig.LogLevelWarn                         = "WARN";
 AdjustConfig.LogLevelError                        = "ERROR";
 AdjustConfig.LogLevelAssert                       = "ASSERT";
 AdjustConfig.LogLevelSuppress                     = "SUPPRESS";
-<<<<<<< HEAD
-AdjustConfig.AttributionSubscription              = undefined;
-AdjustConfig.EventTrackingSucceededSubscription   = undefined;
-AdjustConfig.EventTrackingFailedSubscription      = undefined;
-AdjustConfig.SessionTrackingSucceededSubscription = undefined;
-AdjustConfig.SessionTrackingFailedSubscription    = undefined;
-AdjustConfig.DeferredDeeplinkSubscription         = undefined;
-=======
 
-AdjustConfig.AttributionSubscription              = undefined;
-AdjustConfig.EventTrackingSucceededSubscription   = undefined;
-AdjustConfig.EventTrackingFailedSubscription      = undefined;
-AdjustConfig.SessionTrackingSucceededSubscription = undefined;
-AdjustConfig.SessionTrackingFailedSubscription    = undefined;
-AdjustConfig.DeferredDeeplinkSubscription         = undefined;
->>>>>>> Properly tearing down things by removing all existing listeners
+AdjustConfig.AttributionSubscription              = null;
+AdjustConfig.EventTrackingSucceededSubscription   = null;
+AdjustConfig.EventTrackingFailedSubscription      = null;
+AdjustConfig.SessionTrackingSucceededSubscription = null;
+AdjustConfig.SessionTrackingFailedSubscription    = null;
+AdjustConfig.DeferredDeeplinkSubscription         = null;
 
 AdjustConfig.prototype.setEventBufferingEnabled = function(isEnabled) {
     this.eventBufferingEnabled = isEnabled;
