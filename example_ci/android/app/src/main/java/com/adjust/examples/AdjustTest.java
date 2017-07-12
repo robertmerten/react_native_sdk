@@ -18,6 +18,7 @@ public class AdjustTest extends ReactContextBaseJavaModule {
     private static final String TAG = "AdjustTest";
 
     private TestLibrary testLibrary;
+    private String selectedTests;
 
     public AdjustTest(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -33,7 +34,16 @@ public class AdjustTest extends ReactContextBaseJavaModule {
         Log.d(TAG, "initTestSession() with baseUrl[" + baseUrl + "]");
 
         testLibrary = new TestLibrary(baseUrl, new CommandListener(getReactApplicationContext()));
+        if(this.selectedTests != null 
+                && !this.selectedTests.isEmpty()) {
+            testLibrary.setTests(this.selectedTests);
+                }
         testLibrary.initTestSession("react_native4.11.3@android4.11.4");
+    }
+
+    @ReactMethod
+    public void setTests(String setTests) {
+        this.selectedTests = setTests;
     }
 
     @ReactMethod
